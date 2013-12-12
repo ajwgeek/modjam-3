@@ -1,4 +1,5 @@
-Modjam-3
-========
+## Modjam-3 ##
+The repository for our ModJam 3 entry.
 
-The repository for Modjam 3
+### Downloads: ###
+Download hourly mod builds: [http://ci.ajwgeek.com/](http://ci.ajwgeek.com/ "here").
