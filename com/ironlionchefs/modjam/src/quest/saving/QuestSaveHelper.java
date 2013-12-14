@@ -10,7 +10,7 @@ public class QuestSaveHelper
 {	
 	public boolean getQuestCompletedForPlayer(Quest q, EntityPlayer ep)
 	{
-		return QuestSaveData.forWorld(ep.worldObj).get(q, ep);
+		return  QuestSaveData.forWorld(ep.worldObj).get(q, ep);
 	}
 	
 	public void setQuestCompletedForPlayer(Quest q, EntityPlayer ep, boolean b)
