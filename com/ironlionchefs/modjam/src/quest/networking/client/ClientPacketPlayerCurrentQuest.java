@@ -1,0 +1,75 @@
+package com.ironlionchefs.modjam.src.quest.networking.client;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+
+import net.minecraft.entity.player.EntityPlayer;
+
+import com.google.common.io.ByteArrayDataInput;
+import com.google.common.io.ByteArrayDataOutput;
+import com.ironlionchefs.modjam.src.QuestMod;
+import com.ironlionchefs.modjam.src.quest.Quest;
+import com.ironlionchefs.modjam.src.quest.networking.Packet0BasePacket;
+import com.ironlionchefs.modjam.src.quest.networking.PacketException;
+import com.ironlionchefs.modjam.src.quest.page.QuestPage;
+
+import cpw.mods.fml.relauncher.Side;
+
+public class ClientPacketPlayerCurrentQuest extends Packet0BasePacket
+{
+	private String username;
+	private String questName;
+
+	public ClientPacketPlayerCurrentQuest(EntityPlayer player, Quest quest)
+	{
+		if (quest == null)
+		{
+			this.questName = "null";
+		}
+		else
+		{
+			this.questName = quest.getName();
+		}
+		this.username = player.username;
+	}
+
+	public ClientPacketPlayerCurrentQuest()
+	{
+	}
+
+	@Override
+	public void write(ByteArrayDataOutput out)
+	{
+		out.writeUTF(username);
+		out.writeUTF(questName);
+	}
+
+	@Override
+	public void read(ByteArrayDataInput in) throws PacketException
+	{
+		username = in.readUTF();
+		questName = in.readUTF();
+	}
+
+	@Override
+	public void execute(EntityPlayer player, Side side) throws PacketException
+	{
+		if (questName.equals("null"))
+		{
+			QuestMod.currentQuestForPlayer = null;
+			return;
+		}
+		for (QuestPage i : QuestPage.PAGELIST)
+		{
+			for (Quest j : i.getQuests())
+			{
+				if (j.getName().equals(questName))
+				{
+					QuestMod.currentQuestForPlayer = j;
+					return;
+				}
+			}
+		}
+	}
+}
