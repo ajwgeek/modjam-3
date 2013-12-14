@@ -21,6 +21,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.Container;
 import net.minecraft.network.packet.Packet250CustomPayload;
+import net.minecraft.village.Village;
 import net.minecraft.world.World;
 import net.minecraftforge.event.EventPriority;
 import net.minecraftforge.event.ForgeSubscribe;
@@ -35,6 +36,7 @@ public class QuestModEventHandler
 	{
 		if (event.target instanceof EntityVillager)
 		{
+			EntityVillager ev = (EntityVillager) event.target;
 			event.entityPlayer.openGui(QuestMod.instance, 0, event.entityPlayer.worldObj, (int) event.entityPlayer.posX, (int) event.entityPlayer.posY, (int) event.entityPlayer.posZ);
 			event.setCanceled(true);
 		}

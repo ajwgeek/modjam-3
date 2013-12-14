@@ -9,13 +9,13 @@ import net.minecraft.entity.player.EntityPlayer;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 import com.ironlionchefs.modjam.src.quest.Quest;
-import com.ironlionchefs.modjam.src.quest.networking.Packet0BasePacket;
+import com.ironlionchefs.modjam.src.quest.networking.PacketBase;
 import com.ironlionchefs.modjam.src.quest.networking.PacketException;
 import com.ironlionchefs.modjam.src.quest.page.QuestPage;
 
 import cpw.mods.fml.relauncher.Side;
 
-public class ClientPacketQuestCompletionStatus extends Packet0BasePacket
+public class ClientPacketQuestCompletionStatus extends PacketBase
 {
 	private boolean complete;
 	private String questName;

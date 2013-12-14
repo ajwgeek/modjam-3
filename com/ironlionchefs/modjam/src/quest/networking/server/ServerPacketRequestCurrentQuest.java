@@ -7,7 +7,7 @@ import net.minecraft.server.MinecraftServer;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 import com.ironlionchefs.modjam.src.quest.Quest;
-import com.ironlionchefs.modjam.src.quest.networking.Packet0BasePacket;
+import com.ironlionchefs.modjam.src.quest.networking.PacketBase;
 import com.ironlionchefs.modjam.src.quest.networking.PacketException;
 import com.ironlionchefs.modjam.src.quest.networking.client.ClientPacketPlayerCurrentQuest;
 import com.ironlionchefs.modjam.src.quest.page.QuestPage;
@@ -17,7 +17,7 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 import cpw.mods.fml.relauncher.Side;
 
-public class ServerPacketRequestCurrentQuest extends Packet0BasePacket
+public class ServerPacketRequestCurrentQuest extends PacketBase
 {
 	public String username;
 

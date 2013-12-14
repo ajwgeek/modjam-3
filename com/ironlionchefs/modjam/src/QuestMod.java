@@ -3,7 +3,7 @@ package com.ironlionchefs.modjam.src;
 import java.io.File;
 
 import com.ironlionchefs.modjam.src.quest.Quest;
-import com.ironlionchefs.modjam.src.quest.networking.Packet0BasePacket;
+import com.ironlionchefs.modjam.src.quest.networking.PacketBase;
 
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.Configuration;
@@ -21,11 +21,12 @@ import cpw.mods.fml.common.event.FMLServerStoppingEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.TickRegistry;
+import cpw.mods.fml.common.registry.VillagerRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @Mod(modid = "QuestMod", name = "QuestMod", version = "0.0.1")
-@NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = { Packet0BasePacket.CHANNEL }, packetHandler = QuestModPacketHandler.class)
+@NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = { PacketBase.CHANNEL }, packetHandler = QuestModPacketHandler.class)
 public class QuestMod
 {
 	public static final QuestModTickHandler tickHandler = new QuestModTickHandler();
@@ -51,5 +52,6 @@ public class QuestMod
 		MinecraftForge.EVENT_BUS.register(new com.ironlionchefs.modjam.src.QuestModEventHandler());
 		TickRegistry.registerTickHandler(tickHandler, Side.CLIENT);
 		NetworkRegistry.instance().registerGuiHandler(this, new QuestModGuiHandler());
+		VillagerRegistry.instance().registerVillageCreationHandler(new QuestModVillageHandler());
 	}
 }

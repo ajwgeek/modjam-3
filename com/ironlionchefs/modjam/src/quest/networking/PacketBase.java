@@ -18,14 +18,14 @@ import com.ironlionchefs.modjam.src.quest.networking.server.ServerPacketPlayerEn
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.relauncher.Side;
 
-public abstract class Packet0BasePacket
+public abstract class PacketBase
 {
 	public static final String CHANNEL = "QUEST";
-	private static final BiMap<Integer, Class<? extends Packet0BasePacket>> idMap;
+	private static final BiMap<Integer, Class<? extends PacketBase>> idMap;
 
 	static
 	{
-		ImmutableBiMap.Builder<Integer, Class<? extends Packet0BasePacket>> builder = ImmutableBiMap.builder();
+		ImmutableBiMap.Builder<Integer, Class<? extends PacketBase>> builder = ImmutableBiMap.builder();
 		builder.put(Integer.valueOf(0), ClientPacketQuestCompletionStatus.class);
 		builder.put(Integer.valueOf(1), ServerPacketRequestQuestCompletion.class);
 		builder.put(Integer.valueOf(2), ClientPacketPlayerCurrentQuest.class);
@@ -35,9 +35,9 @@ public abstract class Packet0BasePacket
 		idMap = builder.build();
 	}
 
-	public static Packet0BasePacket constructPacket(int packetId) throws PacketException, ReflectiveOperationException
+	public static PacketBase constructPacket(int packetId) throws PacketException, ReflectiveOperationException
 	{
-		Class<? extends Packet0BasePacket> clazz = idMap.get(Integer.valueOf(packetId));
+		Class<? extends PacketBase> clazz = idMap.get(Integer.valueOf(packetId));
 		if (clazz == null)
 		{
 			throw new PacketException("Bad Packet ID");

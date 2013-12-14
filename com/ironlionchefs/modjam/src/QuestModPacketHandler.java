@@ -2,7 +2,7 @@ package com.ironlionchefs.modjam.src;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
-import com.ironlionchefs.modjam.src.quest.networking.Packet0BasePacket;
+import com.ironlionchefs.modjam.src.quest.networking.PacketBase;
 import com.ironlionchefs.modjam.src.quest.networking.PacketException;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,7 +23,7 @@ public class QuestModPacketHandler implements IPacketHandler
 			EntityPlayer entityPlayer = (EntityPlayer) player;
 			ByteArrayDataInput in = ByteStreams.newDataInput(packet.data);
 			int packetId = in.readUnsignedByte();
-			Packet0BasePacket questPacket = Packet0BasePacket.constructPacket(packetId);
+			PacketBase questPacket = PacketBase.constructPacket(packetId);
 			questPacket.read(in);
 			questPacket.execute(entityPlayer, entityPlayer.worldObj.isRemote ? Side.CLIENT : Side.SERVER);
 		}

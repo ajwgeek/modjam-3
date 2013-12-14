@@ -23,7 +23,7 @@ import net.minecraft.stats.StatBase;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
-public class Quest implements IQuest, Serializable
+public class Quest implements IQuest
 {
 	public final int x, y;
 	public final Quest parentQuest;
