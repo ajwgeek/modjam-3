@@ -11,6 +11,7 @@ import com.google.common.io.ByteStreams;
 import com.ironlionchefs.modjam.src.quest.networking.client.ClientPacketPlayerCurrentQuest;
 import com.ironlionchefs.modjam.src.quest.networking.client.ClientPacketQuestCompletionStatus;
 import com.ironlionchefs.modjam.src.quest.networking.server.ServerPacketConsumeOneOfItemID;
+import com.ironlionchefs.modjam.src.quest.networking.server.ServerPacketIncrementExperiance;
 import com.ironlionchefs.modjam.src.quest.networking.server.ServerPacketRequestCurrentQuest;
 import com.ironlionchefs.modjam.src.quest.networking.server.ServerPacketRequestQuestCompletion;
 import com.ironlionchefs.modjam.src.quest.networking.server.ServerPacketPlayerBeginQuest;
@@ -36,6 +37,7 @@ public abstract class PacketBase
 		builder.put(Integer.valueOf(5), ServerPacketPlayerEndQuest.class);
 		builder.put(Integer.valueOf(6), ServerPacketAddItemStackToInventory.class);
 		builder.put(Integer.valueOf(7), ServerPacketConsumeOneOfItemID.class);
+		builder.put(Integer.valueOf(8), ServerPacketIncrementExperiance.class);
 		idMap = builder.build();
 	}
 

@@ -15,17 +15,17 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSavedData;
 
-public class QuestSavePlayerData extends WorldSavedData
+public class QuestDataPerPlayer extends WorldSavedData
 {
 	public static final String IDENTIFIER = "QUESTPLAYERDATA";
 	private Map<String, String> dataMap = new HashMap<String, String>();
 
-	public QuestSavePlayerData(String s)
+	public QuestDataPerPlayer(String s)
 	{
 		super(IDENTIFIER);
 	}
 
-	public QuestSavePlayerData()
+	public QuestDataPerPlayer()
 	{
 		super(IDENTIFIER);
 	}
@@ -97,12 +97,12 @@ public class QuestSavePlayerData extends WorldSavedData
 		nbttagcompound.setTag("dataMap", tagList);
 	}
 
-	public static QuestSavePlayerData forWorld(World world)
+	public static QuestDataPerPlayer forWorld(World world)
 	{
-		QuestSavePlayerData d = (QuestSavePlayerData) world.mapStorage.loadData(QuestSavePlayerData.class, IDENTIFIER);
+		QuestDataPerPlayer d = (QuestDataPerPlayer) world.mapStorage.loadData(QuestDataPerPlayer.class, IDENTIFIER);
 		if (d == null)
 		{
-			d = new QuestSavePlayerData();
+			d = new QuestDataPerPlayer();
 			world.mapStorage.setData(IDENTIFIER, d);
 		}
 		return d;

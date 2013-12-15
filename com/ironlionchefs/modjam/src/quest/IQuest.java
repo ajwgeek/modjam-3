@@ -18,5 +18,5 @@ public interface IQuest
 
 	public QuestPage getPage();
 
-	public boolean hasRequiredItems(EntityPlayer ep);
+	public boolean meetsCriteria(EntityPlayer ep);
 }

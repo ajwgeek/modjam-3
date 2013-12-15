@@ -51,12 +51,7 @@ public class GuiQuestActive extends GuiScreen
 				this.mc.displayGuiScreen((GuiScreen) null);
 				this.mc.setIngameFocus();
 				if (QuestMod.currentQuestForPlayer != null)
-				{
-					if (QuestMod.currentQuestForPlayer.hasRequiredItems(entityPlayer))
-					{
-						QuestMod.currentQuestForPlayer.onQuestEnd(entityPlayer, entityPlayer.worldObj);
-					}
-				}
+					QuestMod.currentQuestForPlayer.onQuestEnd(entityPlayer, entityPlayer.worldObj);
 				break;
 			case 2:
 				this.mc.displayGuiScreen((GuiScreen) null);
@@ -68,7 +63,7 @@ public class GuiQuestActive extends GuiScreen
 	{
 		if (QuestMod.currentQuestForPlayer != null)
 		{
-			if (!QuestMod.currentQuestForPlayer.hasRequiredItems(entityPlayer))
+			if (!QuestMod.currentQuestForPlayer.meetsCriteria(entityPlayer))
 			{
 				GuiButton b = (GuiButton) this.buttonList.get(0);
 				b.enabled = false;
@@ -104,14 +99,14 @@ public class GuiQuestActive extends GuiScreen
 		int l = (this.height - 166) / 2 + 8;
 		if (QuestMod.currentQuestForPlayer != null)
 		{
-			if (!QuestMod.currentQuestForPlayer.hasRequiredItems(entityPlayer))
+			if (!QuestMod.currentQuestForPlayer.meetsCriteria(entityPlayer))
 			{
 				String s = "Hey there! You don't appear to have";
 				this.fontRenderer.drawString(s, (this.width / 2) - this.fontRenderer.getStringWidth(s) / 2, l, 0x000000);
 				l += 12;
 				s = "the required items for your quest.";
 				this.fontRenderer.drawString(s, (this.width / 2) - this.fontRenderer.getStringWidth(s) / 2, l, 0x000000);
-				s = "Remember, you need to: ";
+				s = "You need to: ";
 				l += 12;
 				this.fontRenderer.drawString(s, (this.width / 2) - this.fontRenderer.getStringWidth(s) / 2, l, 0x000000);
 				s = QuestMod.currentQuestForPlayer.getDescription();

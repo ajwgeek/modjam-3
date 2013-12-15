@@ -15,17 +15,17 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSavedData;
 
-public class QuestSaveData extends WorldSavedData
+public class QuestDataCompletion extends WorldSavedData
 {
 	public static final String IDENTIFIER = "QUESTDATA";
 	private Map<String, Boolean> questMap = new HashMap<String, Boolean>();
 
-	public QuestSaveData()
+	public QuestDataCompletion()
 	{
 		super(IDENTIFIER);
 	}
 
-	public QuestSaveData(String s)
+	public QuestDataCompletion(String s)
 	{
 		super(IDENTIFIER);
 	}
@@ -87,12 +87,12 @@ public class QuestSaveData extends WorldSavedData
 		this.markDirty();
 	}
 
-	public static QuestSaveData forWorld(World world)
+	public static QuestDataCompletion forWorld(World world)
 	{
-		QuestSaveData d = (QuestSaveData) world.mapStorage.loadData(QuestSaveData.class, IDENTIFIER);
+		QuestDataCompletion d = (QuestDataCompletion) world.mapStorage.loadData(QuestDataCompletion.class, IDENTIFIER);
 		if (d == null)
 		{
-			d = new QuestSaveData();
+			d = new QuestDataCompletion();
 			world.mapStorage.setData(IDENTIFIER, d);
 		}
 		return d;
