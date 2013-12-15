@@ -37,10 +37,10 @@ import org.lwjgl.opengl.GL12;
 
 import com.ironlionchefs.modjam.src.QuestMod;
 import com.ironlionchefs.modjam.src.quest.Quest;
-import com.ironlionchefs.modjam.src.quest.networking.client.ClientPacketQuestCompletionStatus;
-import com.ironlionchefs.modjam.src.quest.networking.server.ServerPacketRequestCurrentQuest;
-import com.ironlionchefs.modjam.src.quest.networking.server.ServerPacketRequestQuestCompletion;
-import com.ironlionchefs.modjam.src.quest.networking.server.ServerPacketPlayerBeginQuest;
+import com.ironlionchefs.modjam.src.quest.networking.client.PacketUpdateQuestCompleted;
+import com.ironlionchefs.modjam.src.quest.networking.server.PacketRequestCurrentQuestName;
+import com.ironlionchefs.modjam.src.quest.networking.server.PacketRequestQuestCompleted;
+import com.ironlionchefs.modjam.src.quest.networking.server.PacketRequestPlayerBeginQuest;
 import com.ironlionchefs.modjam.src.quest.page.QuestPage;
 import com.ironlionchefs.modjam.src.quest.page.QuestPageAgriculture;
 
@@ -93,8 +93,8 @@ public class GuiQuestMap extends GuiScreen
 
 	public void initGui()
 	{
-		PacketDispatcher.sendPacketToServer(new ServerPacketRequestQuestCompletion(entityPlayer.username).makePacket());
-		PacketDispatcher.sendPacketToServer(new ServerPacketRequestCurrentQuest(entityPlayer.username).makePacket());
+		PacketDispatcher.sendPacketToServer(new PacketRequestQuestCompleted(entityPlayer.username).makePacket());
+		PacketDispatcher.sendPacketToServer(new PacketRequestCurrentQuestName(entityPlayer.username).makePacket());
 		this.buttonList.clear();
 		this.buttonList.add(new GuiSmallButton(1, this.width / 2 + 24, this.height / 2 + 74, 80, 20, I18n.getString("gui.done")));
 		this.buttonList.add(buttonChangeQuestSet = new GuiSmallButton(2, (width - paneWidth) / 2 + 24, height / 2 + 74, 125, 20, getCurrentQuestSet().getTitle()));

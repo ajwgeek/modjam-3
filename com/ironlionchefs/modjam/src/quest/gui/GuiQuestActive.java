@@ -19,8 +19,8 @@ import org.apache.commons.lang3.Validate;
 import org.lwjgl.opengl.GL11;
 
 import com.ironlionchefs.modjam.src.QuestMod;
-import com.ironlionchefs.modjam.src.quest.networking.server.ServerPacketRequestCurrentQuest;
-import com.ironlionchefs.modjam.src.quest.networking.server.ServerPacketRequestQuestCompletion;
+import com.ironlionchefs.modjam.src.quest.networking.server.PacketRequestCurrentQuestName;
+import com.ironlionchefs.modjam.src.quest.networking.server.PacketRequestQuestCompleted;
 
 @SideOnly(Side.CLIENT)
 public class GuiQuestActive extends GuiScreen
@@ -35,8 +35,8 @@ public class GuiQuestActive extends GuiScreen
 
 	public void initGui()
 	{
-		PacketDispatcher.sendPacketToServer(new ServerPacketRequestQuestCompletion(entityPlayer.username).makePacket());
-		PacketDispatcher.sendPacketToServer(new ServerPacketRequestCurrentQuest(entityPlayer.username).makePacket());
+		PacketDispatcher.sendPacketToServer(new PacketRequestQuestCompleted(entityPlayer.username).makePacket());
+		PacketDispatcher.sendPacketToServer(new PacketRequestCurrentQuestName(entityPlayer.username).makePacket());
 		this.buttonList.clear();
 		byte b0 = -16;
 		this.buttonList.add(new GuiButton(1, this.width / 2 - 116, this.height / 2 + 62 + b0, 114, 20, "Turn In Quest"));

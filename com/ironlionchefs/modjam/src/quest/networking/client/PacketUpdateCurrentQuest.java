@@ -16,12 +16,12 @@ import com.ironlionchefs.modjam.src.quest.page.QuestPage;
 
 import cpw.mods.fml.relauncher.Side;
 
-public class ClientPacketPlayerCurrentQuest extends PacketBase
+public class PacketUpdateCurrentQuest extends PacketBase
 {
 	private String username;
 	private String questName;
 
-	public ClientPacketPlayerCurrentQuest(EntityPlayer player, Quest quest)
+	public PacketUpdateCurrentQuest(EntityPlayer player, Quest quest)
 	{
 		if (quest == null)
 		{
@@ -34,7 +34,7 @@ public class ClientPacketPlayerCurrentQuest extends PacketBase
 		this.username = player.username;
 	}
 
-	public ClientPacketPlayerCurrentQuest()
+	public PacketUpdateCurrentQuest()
 	{
 	}
 

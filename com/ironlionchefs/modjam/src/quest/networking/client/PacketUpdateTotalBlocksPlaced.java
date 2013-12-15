@@ -4,6 +4,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
+import org.apache.commons.lang3.Validate;
+
 import net.minecraft.entity.player.EntityPlayer;
 
 import com.google.common.io.ByteArrayDataInput;
@@ -16,25 +18,23 @@ import com.ironlionchefs.modjam.src.quest.page.QuestPage;
 
 import cpw.mods.fml.relauncher.Side;
 
-public class ClientPacketUpdateBlockPlaced extends PacketBase
+public class PacketUpdateTotalBlocksPlaced extends PacketBase
 {
 	private String username;
 	private String questName;
+	private int ItemID;
+	private int placed;
 
-	public ClientPacketUpdateBlockPlaced(EntityPlayer player, Quest quest, int ItemID)
+	public PacketUpdateTotalBlocksPlaced(EntityPlayer player, Quest quest, int ItemID, int placed)
 	{
-		if (quest == null)
-		{
-			this.questName = "null";
-		}
-		else
-		{
-			this.questName = quest.getName();
-		}
+		Validate.notNull(quest);
+		this.questName = quest.getName();
 		this.username = player.username;
+		this.ItemID = ItemID;
+		this.placed = placed;
 	}
 
-	public ClientPacketUpdateBlockPlaced()
+	public PacketUpdateTotalBlocksPlaced()
 	{
 	}
 
@@ -43,6 +43,8 @@ public class ClientPacketUpdateBlockPlaced extends PacketBase
 	{
 		out.writeUTF(username);
 		out.writeUTF(questName);
+		out.writeInt(ItemID);
+		out.writeInt(placed);
 	}
 
 	@Override
@@ -50,26 +52,14 @@ public class ClientPacketUpdateBlockPlaced extends PacketBase
 	{
 		username = in.readUTF();
 		questName = in.readUTF();
+		ItemID = in.readInt();
+		placed = in.readInt();
 	}
 
 	@Override
 	public void execute(EntityPlayer player, Side side) throws PacketException
 	{
-		if (questName.equals("null"))
-		{
-			QuestMod.currentQuestForPlayer = null;
-			return;
-		}
-		for (QuestPage i : QuestPage.PAGELIST)
-		{
-			for (Quest j : i.getQuests())
-			{
-				if (j.getName().equals(questName))
-				{
-					QuestMod.currentQuestForPlayer = j;
-					return;
-				}
-			}
-		}
+		Validate.isTrue(QuestMod.currentQuestForPlayer.getName().equals(questName));
+		QuestMod.currentQuestForPlayer.blocksPlaced = placed;
 	}
 }

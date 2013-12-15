@@ -11,18 +11,30 @@ import net.minecraft.world.World;
 
 public class QuestSaveHelper
 {
+	public int getBrokenBlocksForQuest(Quest q, EntityPlayer ep, int ItemID)
+	{
+		Validate.isTrue(q.tracker == Tracker.BLOCKBROKEN);
+		return QuestDataBlocksBroken.forWorld(ep.worldObj).get(q, ep, ItemID);
+	}
+
+	public void setBrokenBlocksForQuest(Quest q, EntityPlayer ep, int ItemID, int count)
+	{
+		Validate.isTrue(q.tracker == Tracker.BLOCKBROKEN);
+		QuestDataBlocksBroken.forWorld(ep.worldObj).set(q, ep, ItemID, count);
+	}
+
 	public int getPlacedBlocksForQuest(Quest q, EntityPlayer ep, int ItemID)
 	{
-		Validate.isTrue(q.trackers.contains(Tracker.BLOCKPLACED));
-		return QuestDataBlocksPlaced.forWorld(ep.worldObj).get(q, ep, ItemID);	
+		Validate.isTrue(q.tracker == Tracker.BLOCKPLACED);
+		return QuestDataBlocksPlaced.forWorld(ep.worldObj).get(q, ep, ItemID);
 	}
-	
+
 	public void setPlacedBlocksForQuest(Quest q, EntityPlayer ep, int ItemID, int count)
 	{
-		Validate.isTrue(q.trackers.contains(Tracker.BLOCKPLACED));
+		Validate.isTrue(q.tracker == Tracker.BLOCKPLACED);
 		QuestDataBlocksPlaced.forWorld(ep.worldObj).set(q, ep, ItemID, count);
 	}
-	
+
 	public boolean getQuestCompletedForPlayer(Quest q, EntityPlayer ep)
 	{
 		return QuestDataCompletion.forWorld(ep.worldObj).get(q, ep);

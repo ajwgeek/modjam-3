@@ -4,6 +4,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.Validate;
 import org.bouncycastle.util.Arrays;
@@ -22,13 +23,13 @@ public class QuestPageHunting extends QuestPage implements IQuestPage
 	private static ItemStack[] killSheepItems = new ItemStack[] { new ItemStack(Block.cloth, 3)};
 	private static ItemStack[] killSheepReward = new ItemStack[] {new ItemStack(Item.emerald, 4)};
 	public static final Quest killSheep = (new Quest("Kill Sheep", "Kill 3 sheep and collect the wool.", 0, 0, new ItemStack(Block.cloth), new QuestPageHunting(), (Quest) null,
-			killSheepTools, killSheepItems, killSheepReward, new Tracker[]{Tracker.ENTITYKILLED}));
+			killSheepTools, killSheepItems, killSheepReward, Tracker.ENTITYKILLED, 0, 0, 0, 0));
 	/* Sleep quest */
 	private static ItemStack[] sleepTools = new ItemStack[] { new ItemStack(Block.cloth, 3), new ItemStack(Block.planks, 3)};
 	private static ItemStack[] sleepItems = new ItemStack[] { new ItemStack(Item.bed, 3)};
 	private static ItemStack[] sleepReward = new ItemStack[] {new ItemStack(Item.emerald, 4)};
 	public static final Quest sleep = (new Quest("Sleep", "Craft a bed from the harvested wool", -2, 2, new ItemStack(Item.bed), new QuestPageHunting(), killSheep,
-			sleepTools, sleepItems, sleepReward, new Tracker[]{Tracker.ITEMTURNIN}));
+			sleepTools, sleepItems, sleepReward, Tracker.ITEMTURNIN, 0, 0, 0, 0));
 	
 	@Override
 	public String getTitle()

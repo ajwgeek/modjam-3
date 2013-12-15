@@ -10,11 +10,13 @@ import java.util.Map;
 import org.apache.commons.lang3.Validate;
 
 import com.ironlionchefs.modjam.src.QuestMod;
-import com.ironlionchefs.modjam.src.quest.networking.server.ServerPacketConsumeOneOfItemID;
-import com.ironlionchefs.modjam.src.quest.networking.server.ServerPacketIncrementExperiance;
-import com.ironlionchefs.modjam.src.quest.networking.server.ServerPacketPlayerBeginQuest;
-import com.ironlionchefs.modjam.src.quest.networking.server.ServerPacketPlayerEndQuest;
-import com.ironlionchefs.modjam.src.quest.networking.server.ServerPacketAddItemStackToInventory;
+import com.ironlionchefs.modjam.src.quest.networking.server.PacketRequestConsumeFromInventory;
+import com.ironlionchefs.modjam.src.quest.networking.server.PacketRequestIncrementExperiance;
+import com.ironlionchefs.modjam.src.quest.networking.server.PacketRequestPlayerBeginQuest;
+import com.ironlionchefs.modjam.src.quest.networking.server.PacketRequestPlayerEndQuest;
+import com.ironlionchefs.modjam.src.quest.networking.server.PacketRequestItemAddToInventory;
+import com.ironlionchefs.modjam.src.quest.networking.server.PacketRequestTotalBlocksBroken;
+import com.ironlionchefs.modjam.src.quest.networking.server.PacketRequestTotalBlocksPlaced;
 import com.ironlionchefs.modjam.src.quest.page.QuestPage;
 import com.ironlionchefs.modjam.src.quest.page.QuestPageAgriculture;
 import com.ironlionchefs.modjam.src.quest.tracker.Tracker;
@@ -46,11 +48,16 @@ public class Quest implements IQuest
 	public ItemStack[] toolOut;
 	public ItemStack[] requiredItems;
 	public ItemStack[] reward;
-	public List<Tracker> trackers;
-	public Map<Integer, Integer> blocksPlaced = new HashMap<Integer, Integer>();
+	public Tracker tracker;
+	public int blocksPlaced;
+	public int neededToBePlaced;
+	public int neededToBePlacedItemID;
+	public int neededToBeBroken;
+	public int neededToBeBrokenItemID;
+	public int blocksBroken;
 
 	public Quest(String par2Str, String desc, int par3, int par4, ItemStack par5ItemStack, QuestPage list, Quest par6Quest, ItemStack[] toolOut, ItemStack[] requiredItems,
-			ItemStack[] reward, Tracker[] trackers)
+			ItemStack[] reward, Tracker tracker, int neededToBePlaced, int neededToBePlacedItemID, int neededToBeBroken, int neededToBeBrokenItemID)
 	{
 		this.questIcon = par5ItemStack;
 		this.questDescription = desc;
@@ -62,9 +69,11 @@ public class Quest implements IQuest
 		this.toolOut = toolOut;
 		this.requiredItems = requiredItems;
 		this.reward = reward;
-		this.trackers = new ArrayList<Tracker>(Arrays.asList(trackers));
-		Validate.isTrue(!this.trackers.isEmpty());
-		
+		this.tracker = tracker;
+		this.neededToBePlaced = neededToBePlaced;
+		this.neededToBePlacedItemID = neededToBePlacedItemID;
+		this.neededToBeBroken = neededToBeBroken;
+		this.neededToBeBrokenItemID = neededToBeBrokenItemID;
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -83,12 +92,12 @@ public class Quest implements IQuest
 	public void onQuestBegin(EntityPlayer player, World world)
 	{
 		QuestMod.instance.tickHandler.notifier.questStarted(this);
-		PacketDispatcher.sendPacketToServer(new ServerPacketPlayerBeginQuest(player, this).makePacket());
+		PacketDispatcher.sendPacketToServer(new PacketRequestPlayerBeginQuest(player, this).makePacket());
 		if (toolOut != null)
 		{
 			for (ItemStack is : toolOut)
 			{
-				PacketDispatcher.sendPacketToServer(new ServerPacketAddItemStackToInventory(player, is).makePacket());
+				PacketDispatcher.sendPacketToServer(new PacketRequestItemAddToInventory(player, is).makePacket());
 			}
 		}
 	}
@@ -99,11 +108,11 @@ public class Quest implements IQuest
 		if (this.meetsCriteria(player))
 		{
 			QuestMod.instance.tickHandler.notifier.questComplete(this);
-			PacketDispatcher.sendPacketToServer(new ServerPacketPlayerEndQuest(player, this).makePacket());
-			PacketDispatcher.sendPacketToServer(new ServerPacketIncrementExperiance(player).makePacket());
+			PacketDispatcher.sendPacketToServer(new PacketRequestPlayerEndQuest(player, this).makePacket());
+			PacketDispatcher.sendPacketToServer(new PacketRequestIncrementExperiance(player).makePacket());
 			for (ItemStack is : reward)
 			{
-				PacketDispatcher.sendPacketToServer(new ServerPacketAddItemStackToInventory(player, is).makePacket());
+				PacketDispatcher.sendPacketToServer(new PacketRequestItemAddToInventory(player, is).makePacket());
 			}
 		}
 		else
@@ -122,7 +131,7 @@ public class Quest implements IQuest
 	public boolean meetsCriteria(EntityPlayer ep)
 	{
 		boolean bad = false;
-		if (trackers.contains(Tracker.ITEMTURNIN) && requiredItems != null)
+		if (tracker == Tracker.ITEMTURNIN && requiredItems != null)
 		{
 			for (ItemStack is : requiredItems)
 			{
@@ -132,14 +141,23 @@ public class Quest implements IQuest
 				}
 			}
 		}
-		if (trackers.contains(Tracker.BLOCKPLACED))
+		if (tracker == Tracker.BLOCKPLACED)
 		{
-			
+			PacketDispatcher.sendPacketToServer(new PacketRequestTotalBlocksPlaced(ep, this, this.neededToBePlacedItemID).makePacket());
+			if (this.neededToBePlaced > blocksPlaced)
+			{
+				bad = true;
+			}
 		}
-		if (trackers.contains(Tracker.BLOCKBROKEN))
+		if (tracker == Tracker.BLOCKBROKEN)
 		{
+			PacketDispatcher.sendPacketToServer(new PacketRequestTotalBlocksBroken(ep, this, this.neededToBeBrokenItemID).makePacket());
+			if (this.neededToBeBroken > blocksBroken)
+			{
+				bad = true;
+			}
 		}
-		if(trackers.contains(Tracker.ENTITYKILLED))
+		if(tracker == Tracker.ENTITYKILLED)
 		{
 		}
 		return !bad;

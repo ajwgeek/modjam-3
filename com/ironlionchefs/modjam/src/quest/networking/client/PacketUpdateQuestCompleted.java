@@ -15,18 +15,18 @@ import com.ironlionchefs.modjam.src.quest.page.QuestPage;
 
 import cpw.mods.fml.relauncher.Side;
 
-public class ClientPacketQuestCompletionStatus extends PacketBase
+public class PacketUpdateQuestCompleted extends PacketBase
 {
 	private boolean complete;
 	private String questName;
 
-	public ClientPacketQuestCompletionStatus(Quest quest, boolean complete)
+	public PacketUpdateQuestCompleted(Quest quest, boolean complete)
 	{
 		this.complete = complete;
 		this.questName = quest.getName();
 	}
 
-	public ClientPacketQuestCompletionStatus()
+	public PacketUpdateQuestCompleted()
 	{
 	}
 

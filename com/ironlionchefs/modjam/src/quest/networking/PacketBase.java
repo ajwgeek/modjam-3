@@ -8,15 +8,21 @@ import com.google.common.collect.ImmutableBiMap;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
-import com.ironlionchefs.modjam.src.quest.networking.client.ClientPacketPlayerCurrentQuest;
-import com.ironlionchefs.modjam.src.quest.networking.client.ClientPacketQuestCompletionStatus;
-import com.ironlionchefs.modjam.src.quest.networking.server.ServerPacketConsumeOneOfItemID;
-import com.ironlionchefs.modjam.src.quest.networking.server.ServerPacketIncrementExperiance;
-import com.ironlionchefs.modjam.src.quest.networking.server.ServerPacketRequestCurrentQuest;
-import com.ironlionchefs.modjam.src.quest.networking.server.ServerPacketRequestQuestCompletion;
-import com.ironlionchefs.modjam.src.quest.networking.server.ServerPacketPlayerBeginQuest;
-import com.ironlionchefs.modjam.src.quest.networking.server.ServerPacketPlayerEndQuest;
-import com.ironlionchefs.modjam.src.quest.networking.server.ServerPacketAddItemStackToInventory;
+import com.ironlionchefs.modjam.src.quest.networking.client.PacketUpdateCurrentQuest;
+import com.ironlionchefs.modjam.src.quest.networking.client.PacketUpdateQuestCompleted;
+import com.ironlionchefs.modjam.src.quest.networking.client.PacketUpdateTotalBlocksBroken;
+import com.ironlionchefs.modjam.src.quest.networking.client.PacketUpdateTotalBlocksPlaced;
+import com.ironlionchefs.modjam.src.quest.networking.server.PacketRequestConsumeFromInventory;
+import com.ironlionchefs.modjam.src.quest.networking.server.PacketRequestIncrementExperiance;
+import com.ironlionchefs.modjam.src.quest.networking.server.PacketRequestCurrentQuestName;
+import com.ironlionchefs.modjam.src.quest.networking.server.PacketRequestQuestCompleted;
+import com.ironlionchefs.modjam.src.quest.networking.server.PacketRequestPlayerBeginQuest;
+import com.ironlionchefs.modjam.src.quest.networking.server.PacketRequestPlayerEndQuest;
+import com.ironlionchefs.modjam.src.quest.networking.server.PacketRequestItemAddToInventory;
+import com.ironlionchefs.modjam.src.quest.networking.server.PacketRequestTotalBlocksBroken;
+import com.ironlionchefs.modjam.src.quest.networking.server.PacketRequestTotalBlocksBrokenUpdate;
+import com.ironlionchefs.modjam.src.quest.networking.server.PacketRequestTotalBlocksPlaced;
+import com.ironlionchefs.modjam.src.quest.networking.server.PacketRequestTotalBlocksPlacedUpdate;
 
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.relauncher.Side;
@@ -29,15 +35,22 @@ public abstract class PacketBase
 	static
 	{
 		ImmutableBiMap.Builder<Integer, Class<? extends PacketBase>> builder = ImmutableBiMap.builder();
-		builder.put(Integer.valueOf(0), ClientPacketQuestCompletionStatus.class);
-		builder.put(Integer.valueOf(1), ServerPacketRequestQuestCompletion.class);
-		builder.put(Integer.valueOf(2), ClientPacketPlayerCurrentQuest.class);
-		builder.put(Integer.valueOf(3), ServerPacketRequestCurrentQuest.class);
-		builder.put(Integer.valueOf(4), ServerPacketPlayerBeginQuest.class);
-		builder.put(Integer.valueOf(5), ServerPacketPlayerEndQuest.class);
-		builder.put(Integer.valueOf(6), ServerPacketAddItemStackToInventory.class);
-		builder.put(Integer.valueOf(7), ServerPacketConsumeOneOfItemID.class);
-		builder.put(Integer.valueOf(8), ServerPacketIncrementExperiance.class);
+		builder.put(Integer.valueOf(0), PacketUpdateQuestCompleted.class);
+		builder.put(Integer.valueOf(1), PacketRequestQuestCompleted.class);
+		builder.put(Integer.valueOf(2), PacketUpdateCurrentQuest.class);
+		builder.put(Integer.valueOf(3), PacketRequestCurrentQuestName.class);
+		builder.put(Integer.valueOf(4), PacketRequestPlayerBeginQuest.class);
+		builder.put(Integer.valueOf(5), PacketRequestPlayerEndQuest.class);
+		builder.put(Integer.valueOf(6), PacketRequestItemAddToInventory.class);
+		builder.put(Integer.valueOf(7), PacketRequestConsumeFromInventory.class);
+		builder.put(Integer.valueOf(8), PacketRequestIncrementExperiance.class);
+		builder.put(Integer.valueOf(9), PacketRequestTotalBlocksPlaced.class);
+		builder.put(Integer.valueOf(10), PacketRequestTotalBlocksPlacedUpdate.class);
+		builder.put(Integer.valueOf(11), PacketUpdateTotalBlocksPlaced.class);
+		builder.put(Integer.valueOf(12), PacketRequestTotalBlocksBroken.class);
+		builder.put(Integer.valueOf(13), PacketRequestTotalBlocksBrokenUpdate.class);
+		builder.put(Integer.valueOf(14), PacketUpdateTotalBlocksBroken.class);
+		
 		idMap = builder.build();
 	}
 

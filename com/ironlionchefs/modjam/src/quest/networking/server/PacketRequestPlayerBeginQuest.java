@@ -8,12 +8,11 @@ import net.minecraft.server.MinecraftServer;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
-import com.ironlionchefs.modjam.src.QuestMod;
 import com.ironlionchefs.modjam.src.quest.Quest;
 import com.ironlionchefs.modjam.src.quest.networking.PacketBase;
 import com.ironlionchefs.modjam.src.quest.networking.PacketException;
-import com.ironlionchefs.modjam.src.quest.networking.client.ClientPacketPlayerCurrentQuest;
-import com.ironlionchefs.modjam.src.quest.networking.client.ClientPacketQuestCompletionStatus;
+import com.ironlionchefs.modjam.src.quest.networking.client.PacketUpdateCurrentQuest;
+import com.ironlionchefs.modjam.src.quest.networking.client.PacketUpdateQuestCompleted;
 import com.ironlionchefs.modjam.src.quest.page.QuestPage;
 import com.ironlionchefs.modjam.src.quest.saving.QuestSaveHelper;
 
@@ -21,18 +20,18 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 import cpw.mods.fml.relauncher.Side;
 
-public class ServerPacketPlayerEndQuest extends PacketBase
+public class PacketRequestPlayerBeginQuest extends PacketBase
 {
 	public String username;
 	public String questName;
 
-	public ServerPacketPlayerEndQuest(EntityPlayer ep, Quest quest)
+	public PacketRequestPlayerBeginQuest(EntityPlayer ep, Quest quest)
 	{
 		this.username = ep.username;
 		this.questName = quest.getName();
 	}
 
-	public ServerPacketPlayerEndQuest()
+	public PacketRequestPlayerBeginQuest()
 	{
 	}
 
@@ -66,9 +65,9 @@ public class ServerPacketPlayerEndQuest extends PacketBase
 			}
 		}
 		QuestSaveHelper saveHelper = new QuestSaveHelper();
-		saveHelper.setQuestCompletedForPlayer(finalQuest, playerObj, true);
-		saveHelper.setCurrentQuestForEntity(null, playerObj);
-		PacketDispatcher.sendPacketToPlayer(new ClientPacketQuestCompletionStatus(finalQuest, true).makePacket(), (Player) playerObj);
-		PacketDispatcher.sendPacketToPlayer(new ClientPacketPlayerCurrentQuest(playerObj, null).makePacket(), (Player) playerObj);
+		saveHelper.setQuestCompletedForPlayer(finalQuest, playerObj, false);
+		saveHelper.setCurrentQuestForEntity(finalQuest, playerObj);
+		PacketDispatcher.sendPacketToPlayer(new PacketUpdateCurrentQuest(playerObj, finalQuest).makePacket(), (Player) playerObj);
+		PacketDispatcher.sendPacketToPlayer(new PacketUpdateQuestCompleted(finalQuest, false).makePacket(), (Player) playerObj);
 	}
 }

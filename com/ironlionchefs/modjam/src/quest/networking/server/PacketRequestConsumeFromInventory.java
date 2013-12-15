@@ -12,7 +12,7 @@ import com.google.common.io.ByteArrayDataOutput;
 import com.ironlionchefs.modjam.src.quest.Quest;
 import com.ironlionchefs.modjam.src.quest.networking.PacketBase;
 import com.ironlionchefs.modjam.src.quest.networking.PacketException;
-import com.ironlionchefs.modjam.src.quest.networking.client.ClientPacketQuestCompletionStatus;
+import com.ironlionchefs.modjam.src.quest.networking.client.PacketUpdateQuestCompleted;
 import com.ironlionchefs.modjam.src.quest.page.QuestPage;
 import com.ironlionchefs.modjam.src.quest.saving.QuestSaveHelper;
 
@@ -20,18 +20,18 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 import cpw.mods.fml.relauncher.Side;
 
-public class ServerPacketConsumeOneOfItemID extends PacketBase
+public class PacketRequestConsumeFromInventory extends PacketBase
 {
 	public String username;
 	public int itemID;
 
-	public ServerPacketConsumeOneOfItemID(EntityPlayer ep, int itemID)
+	public PacketRequestConsumeFromInventory(EntityPlayer ep, int itemID)
 	{
 		this.username = ep.username;
 		this.itemID = itemID;
 	}
 
-	public ServerPacketConsumeOneOfItemID()
+	public PacketRequestConsumeFromInventory()
 	{
 	}
 

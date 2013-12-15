@@ -9,7 +9,7 @@ import com.google.common.io.ByteArrayDataOutput;
 import com.ironlionchefs.modjam.src.quest.Quest;
 import com.ironlionchefs.modjam.src.quest.networking.PacketBase;
 import com.ironlionchefs.modjam.src.quest.networking.PacketException;
-import com.ironlionchefs.modjam.src.quest.networking.client.ClientPacketPlayerCurrentQuest;
+import com.ironlionchefs.modjam.src.quest.networking.client.PacketUpdateQuestCompleted;
 import com.ironlionchefs.modjam.src.quest.page.QuestPage;
 import com.ironlionchefs.modjam.src.quest.saving.QuestSaveHelper;
 
@@ -17,16 +17,16 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 import cpw.mods.fml.relauncher.Side;
 
-public class ServerPacketRequestCurrentQuest extends PacketBase
+public class PacketRequestQuestCompleted extends PacketBase
 {
 	public String username;
 
-	public ServerPacketRequestCurrentQuest(String username)
+	public PacketRequestQuestCompleted(String username)
 	{
 		this.username = username;
 	}
 
-	public ServerPacketRequestCurrentQuest()
+	public PacketRequestQuestCompleted()
 	{
 	}
 
@@ -45,8 +45,14 @@ public class ServerPacketRequestCurrentQuest extends PacketBase
 	@Override
 	public void execute(EntityPlayer player, Side side) throws PacketException
 	{
-		EntityPlayer playerObj = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(username);
-		Quest quest = new QuestSaveHelper().getCurrentQuestForEntity(playerObj);
-		PacketDispatcher.sendPacketToPlayer(new ClientPacketPlayerCurrentQuest(playerObj, quest).makePacket(), (Player) playerObj);
+		for (QuestPage i : QuestPage.PAGELIST)
+		{
+			for (Quest j : i.getQuests())
+			{
+				EntityPlayer playerObj = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(username);
+				boolean complete = new QuestSaveHelper().getQuestCompletedForPlayer(j, playerObj);
+				PacketDispatcher.sendPacketToPlayer(new PacketUpdateQuestCompleted(j, complete).makePacket(), (Player) playerObj);
+			}
+		}
 	}
 }
