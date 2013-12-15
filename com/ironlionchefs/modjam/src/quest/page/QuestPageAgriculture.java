@@ -27,7 +27,7 @@ public class QuestPageAgriculture extends QuestPage implements IQuestPage
 	
 	
 	/* Make Small Orchard Quest */
-	private static ItemStack[] makeSmallOrchardTools = new ItemStack[] { new ItemStack(Block.dirt, 8), new ItemStack(Block.fence, 64), new ItemStack(Block.fenceGate, 2) };
+	private static ItemStack[] makeSmallOrchardTools = new ItemStack[] { new ItemStack(Block.sapling, 8), new ItemStack(Block.dirt, 8), new ItemStack(Block.fence, 64), new ItemStack(Block.fenceGate, 2) };
 	private static ItemStack[] makeSmallOrchardReqdItems = null;
 	private static ItemStack[] makeSmallOrchardReward = new ItemStack[] { new ItemStack(Item.emerald, 4) };
 	public static final Quest makeSmallOrchard = (new Quest("Make Small Orchard", "Plant 8 saplings in a small orchard", 0, 2, new ItemStack(Block.sapling),
@@ -35,7 +35,7 @@ public class QuestPageAgriculture extends QuestPage implements IQuestPage
 	
 	
 	/* Gather Apples Quest */
-	private static ItemStack[] gatherApplesTools = new ItemStack[] { new ItemStack(Item.dyePowder, 32) };
+	private static ItemStack[] gatherApplesTools = new ItemStack[] {};
 	private static ItemStack[] gatherApplesReqdItems = new ItemStack[] { new ItemStack(Item.appleRed, 16) };
 	private static ItemStack[] gatherApplesReward = new ItemStack[] { new ItemStack(Item.emerald, 4) };
 	public static final Quest gatherApples = (new Quest("Gather Apples", "Gather 16 apples from the orchard", 0, 4, new ItemStack(Item.appleRed), new QuestPageAgriculture(),

@@ -110,6 +110,16 @@ public class Quest implements IQuest
 			QuestMod.instance.tickHandler.notifier.questComplete(this);
 			PacketDispatcher.sendPacketToServer(new PacketRequestPlayerEndQuest(player, this).makePacket());
 			PacketDispatcher.sendPacketToServer(new PacketRequestIncrementExperiance(player).makePacket());
+			if (tracker == Tracker.ITEMTURNIN)
+			{
+				for (ItemStack is : requiredItems)
+				{
+					for (int i = 0; i < is.stackSize;i++)
+					{
+						PacketDispatcher.sendPacketToServer(new PacketRequestConsumeFromInventory(player, is.itemID).makePacket());	
+					}
+				}
+			}
 			for (ItemStack is : reward)
 			{
 				PacketDispatcher.sendPacketToServer(new PacketRequestItemAddToInventory(player, is).makePacket());
