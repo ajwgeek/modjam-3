@@ -18,7 +18,7 @@ import com.ironlionchefs.modjam.src.quest.networking.server.PacketRequestItemAdd
 import com.ironlionchefs.modjam.src.quest.networking.server.PacketRequestTotalBlocksBroken;
 import com.ironlionchefs.modjam.src.quest.networking.server.PacketRequestTotalBlocksPlaced;
 import com.ironlionchefs.modjam.src.quest.page.QuestPage;
-import com.ironlionchefs.modjam.src.quest.page.QuestPageAgriculture;
+import com.ironlionchefs.modjam.src.quest.page.QuestPageFarmer;
 import com.ironlionchefs.modjam.src.quest.tracker.Tracker;
 
 import cpw.mods.fml.common.network.PacketDispatcher;
@@ -166,9 +166,6 @@ public class Quest implements IQuest
 			{
 				bad = true;
 			}
-		}
-		if(tracker == Tracker.ENTITYKILLED)
-		{
 		}
 		return !bad;
 	}

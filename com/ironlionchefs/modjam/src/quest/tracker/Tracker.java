@@ -4,6 +4,5 @@ public enum Tracker
 {
 	BLOCKPLACED, 
 	BLOCKBROKEN,
-	ENTITYKILLED,
 	ITEMTURNIN;
 }
