@@ -42,7 +42,7 @@ import com.ironlionchefs.modjam.src.quest.networking.server.PacketRequestCurrent
 import com.ironlionchefs.modjam.src.quest.networking.server.PacketRequestQuestCompleted;
 import com.ironlionchefs.modjam.src.quest.networking.server.PacketRequestPlayerBeginQuest;
 import com.ironlionchefs.modjam.src.quest.page.QuestPage;
-import com.ironlionchefs.modjam.src.quest.page.QuestPageAgriculture;
+import com.ironlionchefs.modjam.src.quest.page.QuestPageFarmer;
 
 @SideOnly(Side.CLIENT)
 public class GuiQuestMap extends GuiScreen
@@ -63,8 +63,8 @@ public class GuiQuestMap extends GuiScreen
 
 	public GuiQuestMap(EntityPlayer ep, QuestPage page)
 	{
-		this.field_74117_m = this.guiMapX = this.field_74124_q = (double) (QuestPageAgriculture.logging.x * 24 / 2 - 12);
-		this.field_74115_n = this.guiMapY = this.field_74123_r = (double) (QuestPageAgriculture.logging.y * 24 - 20 / 2);
+		this.field_74117_m = this.guiMapX = this.field_74124_q = (double) (QuestPageFarmer.logging.x * 24 / 2 - 12);
+		this.field_74115_n = this.guiMapY = this.field_74123_r = (double) (QuestPageFarmer.logging.y * 24 - 20 / 2);
 		entityPlayer = ep;
 		this.page = page;
 	}

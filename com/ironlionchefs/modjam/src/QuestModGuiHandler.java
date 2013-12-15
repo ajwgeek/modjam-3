@@ -4,7 +4,7 @@ import com.ironlionchefs.modjam.src.quest.gui.GuiQuestActive;
 import com.ironlionchefs.modjam.src.quest.gui.GuiQuestMap;
 import com.ironlionchefs.modjam.src.quest.gui.GuiQuestNotification;
 import com.ironlionchefs.modjam.src.quest.page.QuestPage;
-import com.ironlionchefs.modjam.src.quest.page.QuestPageAgriculture;
+import com.ironlionchefs.modjam.src.quest.page.QuestPageFarmer;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
@@ -29,14 +29,10 @@ public class QuestModGuiHandler implements IGuiHandler
 		{
 			case 0:
 				return new GuiQuestMap(player, QuestPage.PAGELIST.get(0));
-			case 1:
-				return new GuiQuestMap(player, QuestPage.PAGELIST.get(1));
-			case 2:
-				return new GuiQuestMap(player, QuestPage.PAGELIST.get(2));
 			case 3:
-				return new GuiQuestMap(player, QuestPage.PAGELIST.get(3));
+				return new GuiQuestMap(player, QuestPage.PAGELIST.get(1));
 			case 4:
-				return new GuiQuestMap(player, QuestPage.PAGELIST.get(4));
+				return new GuiQuestMap(player, QuestPage.PAGELIST.get(2));
 			case 5:
 				return new GuiQuestActive(player);
 			default:

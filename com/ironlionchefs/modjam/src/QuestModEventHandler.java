@@ -6,7 +6,7 @@ import com.ironlionchefs.modjam.src.quest.networking.client.PacketUpdateTotalBlo
 import com.ironlionchefs.modjam.src.quest.networking.server.PacketRequestTotalBlocksBrokenUpdate;
 import com.ironlionchefs.modjam.src.quest.networking.server.PacketRequestTotalBlocksPlacedUpdate;
 import com.ironlionchefs.modjam.src.quest.page.QuestPage;
-import com.ironlionchefs.modjam.src.quest.page.QuestPageAgriculture;
+import com.ironlionchefs.modjam.src.quest.page.QuestPageFarmer;
 import com.ironlionchefs.modjam.src.quest.tracker.Tracker;
 
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -27,6 +27,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.Container;
 import net.minecraft.network.packet.Packet250CustomPayload;
+import net.minecraft.util.ChatMessageComponent;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.village.Village;
 import net.minecraft.world.World;
 import net.minecraftforge.event.EventPriority;
@@ -46,9 +48,25 @@ public class QuestModEventHandler
 		if (event.target instanceof EntityVillager)
 		{
 			EntityVillager ev = (EntityVillager) event.target;
-			event.entityPlayer.openGui(QuestMod.instance, ev.getProfession(), event.entityPlayer.worldObj, (int) event.entityPlayer.posX, (int) event.entityPlayer.posY,
-					(int) event.entityPlayer.posZ);
-			event.setCanceled(true);
+			if (event.entityPlayer instanceof EntityPlayerMP)
+			{
+				Village v = event.entityPlayer.worldObj.villageCollectionObj
+						.findNearestVillage(ev.getHomePosition().posX, ev.getHomePosition().posY, ev.getHomePosition().posZ, 16);
+				int reputation = v.getReputationForPlayer(event.entityPlayer.username);
+				if (reputation < -5)
+				{
+					event.entityPlayer.sendChatToPlayer(ChatMessageComponent.createFromText("[Quests] Your reputation with this village is too low to perform quests").setColor(
+							EnumChatFormatting.RED));
+					System.out.println("REPUTATION IS " + reputation + ". Quests not available");
+					return;
+				}
+			}
+			if (ev.getProfession() == 0 || ev.getProfession() == 3 || ev.getProfession() == 4)
+			{
+				event.entityPlayer.openGui(QuestMod.instance, ev.getProfession(), event.entityPlayer.worldObj, (int) event.entityPlayer.posX, (int) event.entityPlayer.posY,
+						(int) event.entityPlayer.posZ);
+				event.setCanceled(true);
+			}
 		}
 	}
 

@@ -10,7 +10,7 @@ import org.lwjgl.input.Keyboard;
 
 import com.ironlionchefs.modjam.src.quest.gui.GuiQuestMap;
 import com.ironlionchefs.modjam.src.quest.gui.GuiQuestNotification;
-import com.ironlionchefs.modjam.src.quest.page.QuestPageAgriculture;
+import com.ironlionchefs.modjam.src.quest.page.QuestPageFarmer;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.ITickHandler;

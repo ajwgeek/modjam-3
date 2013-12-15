@@ -12,8 +12,7 @@ import net.minecraft.block.Block;
 
 public class QuestPage implements IQuestPage
 {
-	public static List<QuestPage> PAGELIST = Arrays.asList((QuestPage) new QuestPageAgriculture(), (QuestPage) new QuestPageEnchanting(), (QuestPage) new QuestPageBrewing(),
-			(QuestPage) new QuestPageMiningCrafting(), (QuestPage) new QuestPageHunting());
+	public static List<QuestPage> PAGELIST = Arrays.asList((QuestPage) new QuestPageFarmer(), (QuestPage) new QuestPageBlacksmith(), (QuestPage) new QuestPageButcher());
 
 	@Override
 	public String getTitle()
