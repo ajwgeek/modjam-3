@@ -28,6 +28,9 @@ import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.EntityInteractEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
+import net.minecraftforge.event.world.BlockEvent;
 
 public class QuestModEventHandler
 {
@@ -37,8 +40,27 @@ public class QuestModEventHandler
 		if (event.target instanceof EntityVillager)
 		{
 			EntityVillager ev = (EntityVillager) event.target;
-			event.entityPlayer.openGui(QuestMod.instance, 0, event.entityPlayer.worldObj, (int) event.entityPlayer.posX, (int) event.entityPlayer.posY, (int) event.entityPlayer.posZ);
+			event.entityPlayer.openGui(QuestMod.instance, ev.getProfession(), event.entityPlayer.worldObj, (int) event.entityPlayer.posX, (int) event.entityPlayer.posY,
+					(int) event.entityPlayer.posZ);
 			event.setCanceled(true);
+		}
+	}
+
+	@ForgeSubscribe
+	public void onBlockBreak(BlockEvent.BreakEvent event)
+	{
+		// Block was broken
+	}
+
+	@ForgeSubscribe
+	public void onBlockPlace(PlayerInteractEvent event)
+	{
+		if (event.entityPlayer.getHeldItem() != null)
+		{
+			if (event.action == Action.RIGHT_CLICK_BLOCK && (event.entityPlayer.getHeldItem().itemID != 0))
+			{
+				// Block was placed
+			}
 		}
 	}
 }

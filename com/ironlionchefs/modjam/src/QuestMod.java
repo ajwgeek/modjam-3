@@ -31,15 +31,16 @@ public class QuestMod
 {
 	public static final QuestModTickHandler tickHandler = new QuestModTickHandler();
 	public static QuestMod instance;
-	
+	public static final QuestModGuiHandler guiHandler = new QuestModGuiHandler();
+
 	@SideOnly(Side.CLIENT)
 	public static Quest currentQuestForPlayer = null;
-	
+
 	public QuestMod()
 	{
 		instance = this;
 	}
-	
+
 	public boolean registerBus(EventBus bus, LoadController controller)
 	{
 		bus.register(this);
@@ -51,7 +52,6 @@ public class QuestMod
 	{
 		MinecraftForge.EVENT_BUS.register(new com.ironlionchefs.modjam.src.QuestModEventHandler());
 		TickRegistry.registerTickHandler(tickHandler, Side.CLIENT);
-		NetworkRegistry.instance().registerGuiHandler(this, new QuestModGuiHandler());
-		VillagerRegistry.instance().registerVillageCreationHandler(new QuestModVillageHandler());
+		NetworkRegistry.instance().registerGuiHandler(this, guiHandler);
 	}
 }

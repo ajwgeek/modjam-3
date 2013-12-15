@@ -12,13 +12,15 @@ import com.ironlionchefs.modjam.src.quest.gui.GuiQuestMap;
 import com.ironlionchefs.modjam.src.quest.gui.GuiQuestNotification;
 import com.ironlionchefs.modjam.src.quest.page.QuestPageAgriculture;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.ITickHandler;
 import cpw.mods.fml.common.TickType;
+import cpw.mods.fml.relauncher.Side;
 
 public class QuestModTickHandler implements ITickHandler
 {
 	public static GuiQuestNotification notifier = new GuiQuestNotification(Minecraft.getMinecraft());
-	
+
 	@Override
 	public void tickStart(EnumSet<TickType> type, Object... tickData)
 	{
@@ -27,7 +29,10 @@ public class QuestModTickHandler implements ITickHandler
 	@Override
 	public void tickEnd(EnumSet<TickType> type, Object... tickData)
 	{
-		notifier.updateQuestWindow();
+		if (FMLCommonHandler.instance().getSide() == Side.CLIENT)
+		{
+			notifier.updateQuestWindow();
+		}
 	}
 
 	@Override

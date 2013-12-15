@@ -1,4 +1,5 @@
 package com.ironlionchefs.modjam.src.quest.networking;
+
 public class PacketException extends Exception
 {
 	public PacketException()

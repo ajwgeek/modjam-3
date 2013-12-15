@@ -55,7 +55,7 @@ public class GuiQuestNotification extends Gui
 		this.haveQuest = true;
 	}
 
-	private void updateAchievementWindowScale()
+	private void updateScale()
 	{
 		GL11.glViewport(0, 0, this.theGame.displayWidth, this.theGame.displayHeight);
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
@@ -87,7 +87,7 @@ public class GuiQuestNotification extends Gui
 			}
 			else
 			{
-				this.updateAchievementWindowScale();
+				this.updateScale();
 				GL11.glDisable(GL11.GL_DEPTH_TEST);
 				GL11.glDepthMask(false);
 				double d1 = d0 * 2.0D;

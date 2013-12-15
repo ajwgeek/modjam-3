@@ -11,10 +11,12 @@ public interface IQuest
 	public void onQuestBegin(EntityPlayer player, World world);
 
 	public void onQuestEnd(EntityPlayer player, World world);
-	
+
 	public String getDescription();
 
 	public String getName();
-	
+
 	public QuestPage getPage();
+
+	public boolean hasRequiredItems(EntityPlayer ep);
 }

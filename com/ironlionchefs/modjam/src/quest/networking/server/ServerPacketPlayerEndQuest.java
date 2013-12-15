@@ -25,7 +25,7 @@ public class ServerPacketPlayerEndQuest extends PacketBase
 {
 	public String username;
 	public String questName;
-	
+
 	public ServerPacketPlayerEndQuest(EntityPlayer ep, Quest quest)
 	{
 		this.username = ep.username;

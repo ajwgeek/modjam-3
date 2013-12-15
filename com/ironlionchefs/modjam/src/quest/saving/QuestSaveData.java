@@ -24,7 +24,7 @@ public class QuestSaveData extends WorldSavedData
 	{
 		super(IDENTIFIER);
 	}
-	
+
 	public QuestSaveData(String s)
 	{
 		super(IDENTIFIER);
@@ -35,7 +35,7 @@ public class QuestSaveData extends WorldSavedData
 		questMap.put(entity.username + "_" + quest.getName(), b);
 		this.markDirty();
 	}
-	
+
 	public boolean get(Quest quest, EntityPlayer entity)
 	{
 		if (questMap.containsKey(entity.username + "_" + quest.getName()))
@@ -77,13 +77,13 @@ public class QuestSaveData extends WorldSavedData
 			String questName = key.split("_")[1];
 			boolean questStatus = (Boolean) pairs.getValue();
 			NBTTagCompound tag = new NBTTagCompound();
-            tag.setString("USER", username);
-            tag.setString("QUEST", questName);
-            tag.setBoolean("STATUS", questStatus);
-            tagList.appendTag(tag);
+			tag.setString("USER", username);
+			tag.setString("QUEST", questName);
+			tag.setBoolean("STATUS", questStatus);
+			tagList.appendTag(tag);
 			it.remove();
 		}
-		nbttagcompound.setTag("questMap", tagList); 
+		nbttagcompound.setTag("questMap", tagList);
 		this.markDirty();
 	}
 

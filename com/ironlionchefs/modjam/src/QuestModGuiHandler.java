@@ -3,7 +3,12 @@ package com.ironlionchefs.modjam.src;
 import com.ironlionchefs.modjam.src.quest.gui.GuiQuestActive;
 import com.ironlionchefs.modjam.src.quest.gui.GuiQuestMap;
 import com.ironlionchefs.modjam.src.quest.gui.GuiQuestNotification;
+import com.ironlionchefs.modjam.src.quest.page.QuestPage;
+import com.ironlionchefs.modjam.src.quest.page.QuestPageAgriculture;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.world.World;
@@ -20,11 +25,19 @@ public class QuestModGuiHandler implements IGuiHandler
 	@Override
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
 	{
-		switch(ID)
+		switch (ID)
 		{
 			case 0:
-				return new GuiQuestMap(player);
+				return new GuiQuestMap(player, QuestPage.PAGELIST.get(0));
 			case 1:
+				return new GuiQuestMap(player, QuestPage.PAGELIST.get(1));
+			case 2:
+				return new GuiQuestMap(player, QuestPage.PAGELIST.get(2));
+			case 3:
+				return new GuiQuestMap(player, QuestPage.PAGELIST.get(3));
+			case 4:
+				return new GuiQuestMap(player, QuestPage.PAGELIST.get(4));
+			case 5:
 				return new GuiQuestActive(player);
 			default:
 				return null;

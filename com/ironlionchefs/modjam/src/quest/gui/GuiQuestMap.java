@@ -59,17 +59,19 @@ public class GuiQuestMap extends GuiScreen
 	private int currentQuestSet = 0;
 	private GuiSmallButton buttonChangeQuestSet;
 	private EntityPlayer entityPlayer;
+	private QuestPage page;
 
-	public GuiQuestMap(EntityPlayer ep)
+	public GuiQuestMap(EntityPlayer ep, QuestPage page)
 	{
 		this.field_74117_m = this.guiMapX = this.field_74124_q = (double) (QuestPageAgriculture.logging.x * 24 / 2 - 12);
 		this.field_74115_n = this.guiMapY = this.field_74123_r = (double) (QuestPageAgriculture.logging.y * 24 - 20 / 2);
 		entityPlayer = ep;
+		this.page = page;
 	}
 
 	public QuestPage getCurrentQuestSet()
 	{
-		return QuestPage.PAGELIST.get(currentQuestSet);
+		return page;
 	}
 
 	public boolean getQuestComplete(Quest quest)
@@ -96,6 +98,7 @@ public class GuiQuestMap extends GuiScreen
 		this.buttonList.clear();
 		this.buttonList.add(new GuiSmallButton(1, this.width / 2 + 24, this.height / 2 + 74, 80, 20, I18n.getString("gui.done")));
 		this.buttonList.add(buttonChangeQuestSet = new GuiSmallButton(2, (width - paneWidth) / 2 + 24, height / 2 + 74, 125, 20, getCurrentQuestSet().getTitle()));
+		buttonChangeQuestSet.enabled = false;
 	}
 
 	protected void actionPerformed(GuiButton par1GuiButton)
@@ -181,7 +184,7 @@ public class GuiQuestMap extends GuiScreen
 	{
 		if (QuestMod.currentQuestForPlayer != null)
 		{
-			entityPlayer.openGui(QuestMod.instance, 1, entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
+			entityPlayer.openGui(QuestMod.instance, 5, entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
 		}
 		this.field_74117_m = this.guiMapX;
 		this.field_74115_n = this.guiMapY;
@@ -425,7 +428,7 @@ public class GuiQuestMap extends GuiScreen
 					{
 						this.mc.displayGuiScreen((GuiScreen) null);
 						this.mc.setIngameFocus();
-						quest1.onQuestBegin(entityPlayer, entityPlayer.worldObj);		
+						quest1.onQuestBegin(entityPlayer, entityPlayer.worldObj);
 					}
 				}
 			}

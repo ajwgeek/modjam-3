@@ -39,7 +39,7 @@ public class GuiQuestActive extends GuiScreen
 		PacketDispatcher.sendPacketToServer(new ServerPacketRequestCurrentQuest(entityPlayer.username).makePacket());
 		this.buttonList.clear();
 		byte b0 = -16;
-		this.buttonList.add(new GuiButton(1, this.width / 2 - 116, this.height / 2 + 62 + b0, 114, 20, "Finished Quest"));
+		this.buttonList.add(new GuiButton(1, this.width / 2 - 116, this.height / 2 + 62 + b0, 114, 20, "Turn In Quest"));
 		this.buttonList.add(new GuiButton(2, this.width / 2 + 2, this.height / 2 + 62 + b0, 114, 20, "Back"));
 	}
 
@@ -50,7 +50,13 @@ public class GuiQuestActive extends GuiScreen
 			case 1:
 				this.mc.displayGuiScreen((GuiScreen) null);
 				this.mc.setIngameFocus();
-				QuestMod.currentQuestForPlayer.onQuestEnd(entityPlayer, entityPlayer.worldObj);
+				if (QuestMod.currentQuestForPlayer != null)
+				{
+					if (QuestMod.currentQuestForPlayer.hasRequiredItems(entityPlayer))
+					{
+						QuestMod.currentQuestForPlayer.onQuestEnd(entityPlayer, entityPlayer.worldObj);
+					}
+				}
 				break;
 			case 2:
 				this.mc.displayGuiScreen((GuiScreen) null);
@@ -60,6 +66,19 @@ public class GuiQuestActive extends GuiScreen
 
 	public void updateScreen()
 	{
+		if (QuestMod.currentQuestForPlayer != null)
+		{
+			if (!QuestMod.currentQuestForPlayer.hasRequiredItems(entityPlayer))
+			{
+				GuiButton b = (GuiButton) this.buttonList.get(0);
+				b.enabled = false;
+			}
+			else
+			{
+				GuiButton b = (GuiButton) this.buttonList.get(0);
+				b.enabled = true;
+			}
+		}
 		super.updateScreen();
 	}
 
@@ -67,7 +86,7 @@ public class GuiQuestActive extends GuiScreen
 	{
 		return false;
 	}
-	
+
 	public void drawDefaultBackground()
 	{
 		super.drawDefaultBackground();
@@ -83,12 +102,31 @@ public class GuiQuestActive extends GuiScreen
 		this.drawDefaultBackground();
 		int k = (this.width - 248) / 2 + 10;
 		int l = (this.height - 166) / 2 + 8;
-
-		this.fontRenderer.drawString("Hey there! You already have a quest.", (this.width / 2) - this.fontRenderer.getStringWidth("Hey there! You already have a quest.") / 2, l, 0x000000);
-		l += 48;
-		GameSettings gamesettings = this.mc.gameSettings;
-		this.fontRenderer.drawString("You must complete this quest before", (this.width / 2) - this.fontRenderer.getStringWidth("You must complete this quest before") / 2, l, 0x000000);
-		this.fontRenderer.drawString("moving on.", (this.width / 2) - this.fontRenderer.getStringWidth("moving on.") / 2, l + 12, 0x000000);
+		if (QuestMod.currentQuestForPlayer != null)
+		{
+			if (!QuestMod.currentQuestForPlayer.hasRequiredItems(entityPlayer))
+			{
+				String s = "Hey there! You don't appear to have";
+				this.fontRenderer.drawString(s, (this.width / 2) - this.fontRenderer.getStringWidth(s) / 2, l, 0x000000);
+				l += 12;
+				s = "the required items for your quest.";
+				this.fontRenderer.drawString(s, (this.width / 2) - this.fontRenderer.getStringWidth(s) / 2, l, 0x000000);
+				s = "Remember, you need to: ";
+				l += 12;
+				this.fontRenderer.drawString(s, (this.width / 2) - this.fontRenderer.getStringWidth(s) / 2, l, 0x000000);
+				s = QuestMod.currentQuestForPlayer.getDescription();
+				l += 12;
+				this.fontRenderer.drawString(s, (this.width / 2) - this.fontRenderer.getStringWidth(s) / 2, l + 12, 0x000000);
+			}
+			else
+			{
+				String s = "Hey there! Ready to turn in your";
+				this.fontRenderer.drawString(s, (this.width / 2) - this.fontRenderer.getStringWidth(s) / 2, l, 0x000000);
+				l += 12;
+				s = "quest?";
+				this.fontRenderer.drawString(s, (this.width / 2) - this.fontRenderer.getStringWidth(s) / 2, l, 0x000000);
+			}
+		}
 		super.drawScreen(par1, par2, par3);
 	}
 }
