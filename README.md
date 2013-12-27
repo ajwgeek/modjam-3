@@ -9,4 +9,3 @@ The repository for our ModJam 3 entry.
 	5. To recompile, run recompile.bat
 	6. To release the mod, run reobfuscate.bat 
 	7. Find the files in reobf/minecraft and add them to a jar or zip file
-	8. 
