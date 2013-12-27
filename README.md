@@ -1,4 +1,4 @@
-## Modjam-3 ##
+## Modjam-3
 The repository for our ModJam 3 entry.
 ======
 1. How to compile:
