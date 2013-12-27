@@ -1,6 +1,7 @@
 ## Modjam-3
+
 The repository for our ModJam 3 entry.
-======
+
 1. How to compile:
 	1. Download and setup Minecraft Forge Source
 	3. Extract this code into the MCP "src" folder
